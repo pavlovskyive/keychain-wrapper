@@ -18,7 +18,7 @@ public final class KeychainWrapper: SecureStorage {
 
         guard let valueData = value.data(using: .utf8) else {
             print("Error converting value to data.")
-            throw KeychainWrapperError(type: .badData)
+            throw SecureStorageError(type: .badData)
         }
 
         let query: [String: Any] = [
@@ -35,7 +35,7 @@ public final class KeychainWrapper: SecureStorage {
         case errSecDuplicateItem:
             try update(value, forKey: service)
         default:
-            throw KeychainWrapperError(status: status, type: .servicesError)
+            throw SecureStorageError(status: status, type: .servicesError)
         }
     }
 
@@ -55,18 +55,18 @@ public final class KeychainWrapper: SecureStorage {
 
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         guard status != errSecItemNotFound else {
-            throw KeychainWrapperError(type: .itemNotFound)
+            throw SecureStorageError(type: .itemNotFound)
         }
 
         guard status == errSecSuccess else {
-            throw KeychainWrapperError(status: status, type: .servicesError)
+            throw SecureStorageError(status: status, type: .servicesError)
         }
 
         guard let existingItem = item as? [String: Any],
               let valueData = existingItem[kSecValueData as String] as? Data,
               let value = String(data: valueData, encoding: .utf8)
         else {
-            throw KeychainWrapperError(type: .unableToConvertToString)
+            throw SecureStorageError(type: .unableToConvertToString)
         }
 
         return value
@@ -75,7 +75,7 @@ public final class KeychainWrapper: SecureStorage {
     public func update(_ value: String, forKey service: String) throws {
 
         guard let valueData = value.data(using: .utf8) else {
-            throw KeychainWrapperError(type: .unableToConvertToData)
+            throw SecureStorageError(type: .unableToConvertToData)
         }
 
         let query: [String: Any] = [
@@ -89,11 +89,11 @@ public final class KeychainWrapper: SecureStorage {
 
         let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         guard status != errSecItemNotFound else {
-            throw KeychainWrapperError(message: "Matching Item Not Found", type: .itemNotFound)
+            throw SecureStorageError(message: "Matching Item Not Found", type: .itemNotFound)
         }
 
         guard status == errSecSuccess else {
-            throw KeychainWrapperError(status: status, type: .servicesError)
+            throw SecureStorageError(status: status, type: .servicesError)
         }
     }
 
@@ -106,7 +106,7 @@ public final class KeychainWrapper: SecureStorage {
 
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            throw KeychainWrapperError(status: status, type: .servicesError)
+            throw SecureStorageError(status: status, type: .servicesError)
         }
     }
 

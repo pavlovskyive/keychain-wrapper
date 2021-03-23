@@ -1,5 +1,5 @@
 //
-//  KeychainWrapperError.swift
+//  SecureStorageError.swift
 //  
 //
 //  Created by Vsevolod Pavlovskyi on 20.03.2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeychainWrapperError: Error {
+public struct SecureStorageError: Error {
 
     var message: String?
     var type: KeychainErrorType
