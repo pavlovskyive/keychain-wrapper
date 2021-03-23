@@ -12,7 +12,7 @@ public struct SecureStorageError: Error {
     var message: String?
     var type: KeychainErrorType
 
-    enum KeychainErrorType {
+    public enum KeychainErrorType {
         case badData
         case servicesError
         case itemNotFound
@@ -20,7 +20,7 @@ public struct SecureStorageError: Error {
         case unableToConvertToData
     }
 
-    init(status: OSStatus, type: KeychainErrorType) {
+    public init(status: OSStatus, type: KeychainErrorType) {
         self.type = type
         if let errorMessage = SecCopyErrorMessageString(status, nil) {
             self.message = String(errorMessage)
@@ -29,11 +29,11 @@ public struct SecureStorageError: Error {
         }
     }
 
-    init(type: KeychainErrorType) {
+    public init(type: KeychainErrorType) {
         self.type = type
     }
 
-    init(message: String, type: KeychainErrorType) {
+    public init(message: String, type: KeychainErrorType) {
         self.message = message
         self.type = type
     }
