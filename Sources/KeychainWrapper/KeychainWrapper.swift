@@ -8,6 +8,10 @@
 import Foundation
 
 public final class KeychainWrapper: SecureStorage {
+    
+    public init() {
+        
+    }
 
     public func set(_ value: String, forKey service: String) throws {
 
