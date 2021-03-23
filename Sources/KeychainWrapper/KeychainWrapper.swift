@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class KeychainWrapper {
+public final class KeychainWrapper: SecureStorage {
 
     public func set(_ value: String, forKey service: String) throws {
 
