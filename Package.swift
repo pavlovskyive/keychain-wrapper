@@ -7,7 +7,7 @@ let package = Package(
     name: "KeychainWrapper",
     platforms: [
         .iOS(.v12),
-        .macOS(.v10_15),
+        .macOS(.v10_10),
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
